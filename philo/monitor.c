@@ -16,8 +16,10 @@ void	monitor(t_philo *philo, t_data *data)
 {
 	int	i;
 
-	while (!data->is_over && !all_are_done(philo))
+	pthread_mutex_lock(&data->is_dead);
+	while (!data->is_over && !data->all_are_done)
 	{
+		pthread_mutex_unlock(&data->is_dead);	
 		i = 0;
 		while (i < data->philo_num)
 		{
@@ -28,46 +30,37 @@ void	monitor(t_philo *philo, t_data *data)
 				data->is_over = 1;
 				pthread_mutex_unlock(&data->is_dead);
 				pthread_mutex_lock(&data->printer);
-				printf("%u %d is dead.\n", get_sim_time(data), philo[i].idx);
+				printf("[%u] %d is dead.\n", get_sim_time(data), philo[i].idx);
 				pthread_mutex_unlock(&data->printer);
+				return ;
+			}
+			pthread_mutex_unlock(&philo[i].meal);
+			all_are_done(philo, data);
+			i++;
+		}
+	}
+}
+
+void	all_are_done(t_philo *philo, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->n_meals > 0)
+	{
+		while (i < data->philo_num)
+		{
+			pthread_mutex_lock(&philo[i].meal);
+			if (philo[i].meals_eaten < data->n_meals)
+			{
+				pthread_mutex_unlock(&philo[i].meal);
 				return ;
 			}
 			pthread_mutex_unlock(&philo[i].meal);
 			i++;
 		}
+		pthread_mutex_lock(&data->are_done);
+		data->all_are_done = 1;
+		pthread_mutex_unlock(&data->are_done);
 	}
-}
-
-long	get_time_diff(struct timeval *start)
-{
-	struct timeval	curr_time;
-	long			milliseconds;
-	long			sec_diff;
-	long			microsec_diff;
-
-	gettimeofday(&curr_time, NULL);
-	sec_diff = curr_time.tv_sec - start->tv_sec;
-	microsec_diff = curr_time.tv_usec - start->tv_usec;
-	milliseconds = (sec_diff * 1000) + (microsec_diff / 1000);
-	return (milliseconds);
-}
-
-int	all_are_done(t_philo *philo)
-{
-	int	i;
-
-	i = 0;
-//	printf("n_meals = %d\n", philo[i].data->n_meals);
-	if (philo[i].data->n_meals > 0)
-	{
-		while (i < philo[i].data->philo_num)
-		{
-			if (philo[i].meals_eaten < philo[i].data->n_meals)
-				return (0);
-			i++;
-		}
-	}
-	else
-		return (0);
-	return (1);
 }

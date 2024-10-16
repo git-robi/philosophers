@@ -45,6 +45,7 @@ void	init_values(int	argc, char **argv, t_philo **philo, t_data **data)
 	else
 		(*data)->n_meals = -1;
 	(*data)->is_over = 0;
+	(*data)->all_are_done = 0;
 	(*data)->start = get_current_time();
 	*philo = malloc(sizeof(t_philo) * (*data)->philo_num);
 // add check
@@ -98,10 +99,10 @@ int	init_mutex(t_data *data, t_philo *philo)
 	}
 	if (pthread_mutex_init(&data->is_dead, NULL) != 0)
 		return (0);
-	if (pthread_mutex_init(&data->time, NULL) != 0)
-		return (0);
 	if (pthread_mutex_init(&data->printer, NULL) != 0)
 		return (0);
+	if (pthread_mutex_init(&data->are_done, NULL) != 0)
+                return (0);
 	i = 0;
 	while (i < data->philo_num)
 	{

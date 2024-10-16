@@ -25,10 +25,11 @@ typedef struct	s_data t_data;
 typedef struct s_data
 {
 	pthread_mutex_t	is_dead;
-	pthread_mutex_t	time;
+	pthread_mutex_t are_done;
 	pthread_mutex_t	printer;
 	pthread_mutex_t	*forks;
 	int				is_over;
+	int				all_are_done;
 	int				philo_num;
 	unsigned long	time_to_die;
 	int				time_to_eat;
@@ -65,7 +66,7 @@ int printer(char *s, t_philo *philo);
 //monitor
 void    monitor(t_philo *philo, t_data *data);
 long    get_time_diff(struct timeval *start);
-int all_are_done(t_philo *philo);
+void all_are_done(t_philo *philo, t_data *data);
 //utils
 long    my_atol(const char *str);
 void    destroy_and_free(t_data *data);
