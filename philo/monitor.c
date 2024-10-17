@@ -60,7 +60,10 @@ void	all_are_done(t_philo *philo, t_data *data)
 			i++;
 		}
 		pthread_mutex_lock(&data->are_done);
+		pthread_mutex_lock(&data->printer);
 		data->all_are_done = 1;
+		printf("Every philo had %d meals.\n", data->n_meals);
+		pthread_mutex_unlock(&data->printer);
 		pthread_mutex_unlock(&data->are_done);
 	}
 }

@@ -54,8 +54,9 @@ typedef struct s_philo
 int		arg_check(int argc, char **argv);
 int limit_check(int argc, char **argv);
 //init
-void    init_values(int argc, char **argv, t_philo **philo, t_data **data);
-int make_threads(t_philo *philo, t_data *data);
+int     init_philo(t_philo **philo, t_data **data);
+int     init_data(int argc, char **argv, t_data **data);
+void make_threads(t_philo *philo, t_data *data);
 int init_mutex(t_data *data, t_philo *philo);
 //routine
 void	*routine(void *arg);
@@ -69,7 +70,8 @@ long    get_time_diff(struct timeval *start);
 void all_are_done(t_philo *philo, t_data *data);
 //utils
 long    my_atol(const char *str);
-void    destroy_and_free(t_data *data);
+void    free_memory(t_data *data, t_philo *philo);
+void    destroy_mutex(t_data *data, t_philo *philo);
 unsigned int	get_current_time(void);
 unsigned int	get_sim_time(t_data *data);
 #endif

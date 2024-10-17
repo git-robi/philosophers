@@ -12,11 +12,24 @@
 
 #include "philo.h"
 
-void	one_philo(char **argv)
+int	edge_case(int argc, char **argv)
 {
-	printf("[0] 1 is thinking\n");
-	usleep(my_atol(argv[2]) * 1000);
-	printf("[%lu] 1 is dead\n", my_atol(argv[2]));
+	if (my_atol(argv[1]) == 1)
+	{
+		printf("[0] 1 is thinking\n");
+		usleep(my_atol(argv[2]) * 1000);
+		printf("[%lu] 1 is dead\n", my_atol(argv[2]));
+		return (1);
+	}
+	if (argc == 6)
+	{
+		if (my_atol(argv[5]) == 0)
+		{
+			printf("Every philo had 0 meals.\n");
+			return (1);
+		}
+	}
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -28,22 +41,19 @@ int	main(int argc, char **argv)
 	data = NULL;
 	if (!arg_check(argc, argv))
 		return (0);
-	if (my_atol(argv[1]) == 1)
-	{
-		one_philo(argv);
+	if (edge_case(argc, argv))
 		return (0);
-	}
-	init_values(argc, argv, &philo, &data);
+	if(!init_data(argc, argv, &data))
+		return (0);
+	if(!init_philo(&philo, &data))
+		return (0);
 	if (!init_mutex(data, philo))
-		return (0);
-	if (!make_threads(philo, data))
-		return (0);
-	int i = 0;
-	while (i < data->philo_num)
 	{
-		printf("[%d] meals eaten: [%d]\n", i, philo[i].meals_eaten);
-		i++;
+		free_memory(data, philo);
+		return (0);
 	}
-//	destroy_all(&data);
+	make_threads(philo, data);
+	destroy_mutex(data, philo);
+	free_memory(data, philo);
 	return (0);
 }

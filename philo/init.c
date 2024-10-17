@@ -12,34 +12,22 @@
 
 #include "philo.h"
 
-unsigned int	get_current_time(void)
+int	init_data(int argc, char **argv, t_data **data)
 {
-	struct timeval		tmp;
-	unsigned int		current_time;
-
-	gettimeofday(&tmp, NULL);
-	current_time = (unsigned int)tmp.tv_sec * 1000 + tmp.tv_usec * 0.001;
-	return (current_time);
-}
-
-unsigned int	get_sim_time(t_data *data)
-{
-	return (get_current_time() - data->start);
-}
-
-void	init_values(int	argc, char **argv, t_philo **philo, t_data **data)
-{
-	int	i;
-	
 	*data = malloc(sizeof(t_data) * 1);
-// add check
+	if (*data == NULL)
+		return (0);
 	(*data)->philo_num = (int)my_atol(argv[1]);
+	(*data)->forks = NULL;
 	(*data)->forks = malloc(sizeof(pthread_mutex_t) * (*data)->philo_num);
-// add check
+	if ((*data)->forks == NULL)
+	{
+		free(*data);
+		return (0);
+	}
 	(*data)->time_to_die = (int)my_atol(argv[2]);
 	(*data)->time_to_eat = (int)my_atol(argv[3]);
 	(*data)->time_to_sleep = (int)my_atol(argv[4]);
-	printf("%lu, %d, %d\n", (*data)->time_to_die, (*data)->time_to_eat, (*data)->time_to_sleep);
 	if (argc == 6)
 		(*data)->n_meals = (int)my_atol(argv[5]);
 	else
@@ -47,43 +35,55 @@ void	init_values(int	argc, char **argv, t_philo **philo, t_data **data)
 	(*data)->is_over = 0;
 	(*data)->all_are_done = 0;
 	(*data)->start = get_current_time();
-	*philo = malloc(sizeof(t_philo) * (*data)->philo_num);
-// add check
-	i = 0;
-	while (i < (*data)->philo_num)
-	{
-		(*philo)[i].last_meal = 0;
-		(*philo)[i].idx = i;
-		(*philo)[i].meals_eaten = 0;
-		(*philo)[i].data = *data;
-		i++;
-	}
-	
+	return (1);
 }
 
-int	make_threads(t_philo *philo, t_data *data)
+int	init_philo(t_philo **philo, t_data **data)
+{
+	int	i;
+
+	*philo = malloc(sizeof(t_philo) * (*data)->philo_num);
+	if (*philo == NULL)
+	{	
+		free_memory(*data, *philo);
+                return (0);
+	}
+        i = 0;
+        while (i < (*data)->philo_num)
+        {
+                (*philo)[i].last_meal = 0;
+                (*philo)[i].idx = i;
+                (*philo)[i].meals_eaten = 0;
+                (*philo)[i].data = *data;
+                i++;
+	}
+	return (1);
+}
+
+void	make_threads(t_philo *philo, t_data *data)
 {
 	int	i;
 
 	i = 0;
-//	printf("philo_num: %d\n", data->philo_num);
 	while (i < data->philo_num)
 	{
 		if (pthread_create(&philo[i].th, NULL, routine, &philo[i]) != 0)
-			return (0);
+		{
+			pthread_mutex_lock(&data->is_dead);
+			data->is_over = 1;
+			pthread_mutex_lock(&data->is_dead);
+			return ;
+		}
 		i++;
 	}
 	monitor(philo, data);
 	i = 0;
-//	printf("philo num in make threads: %d\n", data->philo_num); 
 	while (i < data->philo_num)
 	{
-//		printf("enter join\n");
 		if (pthread_join(philo[i].th, NULL) != 0)
-			return (0);
+			return ;
 		i++;
 	}
-	return (1);
 }
 
 int	init_mutex(t_data *data, t_philo *philo)
@@ -109,9 +109,7 @@ int	init_mutex(t_data *data, t_philo *philo)
 		if (pthread_mutex_init(&philo[i].meal, NULL) != 0)
 			return(0);
 		philo[i].left_fork = &data->forks[i];
-		printf("philo [%d] left fork: %p\n", i, philo[i].left_fork);
 		philo[i].right_fork = &data->forks[(i + 1) % data->philo_num];
-		printf("philo [%d] right fork: %p\n", i, philo[i].right_fork);
 		i++;
 	}
 	return (1);
