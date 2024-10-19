@@ -6,7 +6,7 @@
 /*   By: rgiambon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 15:42:25 by rgiambon          #+#    #+#             */
-/*   Updated: 2024/10/16 11:42:19 by rgiambon         ###   ########.fr       */
+/*   Updated: 2024/10/19 15:22:41 by rgiambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,18 @@ int	init_philo(t_philo **philo, t_data **data)
 
 	*philo = malloc(sizeof(t_philo) * (*data)->philo_num);
 	if (*philo == NULL)
-	{	
+	{
 		free_memory(*data, *philo);
-                return (0);
+		return (0);
 	}
-        i = 0;
-        while (i < (*data)->philo_num)
-        {
-                (*philo)[i].last_meal = 0;
-                (*philo)[i].idx = i;
-                (*philo)[i].meals_eaten = 0;
-                (*philo)[i].data = *data;
-                i++;
+	i = 0;
+	while (i < (*data)->philo_num)
+	{
+		(*philo)[i].last_meal = 0;
+		(*philo)[i].idx = i;
+		(*philo)[i].meals_eaten = 0;
+		(*philo)[i].data = *data;
+		i++;
 	}
 	return (1);
 }
@@ -102,12 +102,12 @@ int	init_mutex(t_data *data, t_philo *philo)
 	if (pthread_mutex_init(&data->printer, NULL) != 0)
 		return (0);
 	if (pthread_mutex_init(&data->are_done, NULL) != 0)
-                return (0);
+		return (0);
 	i = 0;
 	while (i < data->philo_num)
 	{
 		if (pthread_mutex_init(&philo[i].meal, NULL) != 0)
-			return(0);
+			return (0);
 		philo[i].left_fork = &data->forks[i];
 		philo[i].right_fork = &data->forks[(i + 1) % data->philo_num];
 		i++;

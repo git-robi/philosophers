@@ -6,7 +6,7 @@
 /*   By: rgiambon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 15:46:09 by rgiambon          #+#    #+#             */
-/*   Updated: 2024/10/13 15:46:12 by rgiambon         ###   ########.fr       */
+/*   Updated: 2024/10/19 15:20:11 by rgiambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	destroy_mutex(t_data *data, t_philo *philo)
 	i = 0;
 	while (i < data->philo_num)
 	{
-		pthread_mutex_destroy(philo[i].right_fork);
-		pthread_mutex_destroy(philo[i].left_fork);
 		pthread_mutex_destroy(&philo[i].meal);
 		pthread_mutex_destroy(&data->forks[i]);
 		i++;
@@ -58,7 +56,7 @@ unsigned int	get_sim_time(t_data *data)
 long	my_atol(const char *str)
 {
 	int			i;
-	long	result;
+	long		result;
 	int			sign;
 
 	i = 0;

@@ -6,13 +6,13 @@
 #    By: rgiambon <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/14 13:20:44 by rgiambon          #+#    #+#              #
-#    Updated: 2024/10/16 12:18:07 by rgiambon         ###   ########.fr        #
+#    Updated: 2024/10/19 11:22:35 by rgiambon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
 SRCS = philo.c checks.c init.c routine.c monitor.c utils.c
 OBJS = $(SRCS:.c=.o)
 HEADER = philo.h

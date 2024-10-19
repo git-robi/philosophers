@@ -6,7 +6,7 @@
 /*   By: rgiambon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 15:50:02 by rgiambon          #+#    #+#             */
-/*   Updated: 2024/10/14 13:25:28 by rgiambon         ###   ########.fr       */
+/*   Updated: 2024/10/19 15:20:30 by rgiambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ int	main(int argc, char **argv)
 	data = NULL;
 	if (!arg_check(argc, argv))
 		return (0);
-	if (edge_case(argc, argv))
+	if (!init_data(argc, argv, &data))
 		return (0);
-	if(!init_data(argc, argv, &data))
-		return (0);
-	if(!init_philo(&philo, &data))
+	if (!init_philo(&philo, &data))
 		return (0);
 	if (!init_mutex(data, philo))
 	{

@@ -6,7 +6,7 @@
 /*   By: rgiambon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 15:41:24 by rgiambon          #+#    #+#             */
-/*   Updated: 2024/10/14 13:27:14 by rgiambon         ###   ########.fr       */
+/*   Updated: 2024/10/19 15:12:27 by rgiambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	limit_check(int argc, char **argv)
 {
 	int	i;
-	
+
 	if (my_atol(argv[1]) > INT_MAX || my_atol(argv[1]) <= 0)
 		return (0);
 	i = 2;
@@ -51,4 +51,3 @@ int	arg_check(int argc, char **argv)
 		return (0);
 	return (1);
 }
-
