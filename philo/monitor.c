@@ -6,7 +6,7 @@
 /*   By: rgiambon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 15:45:27 by rgiambon          #+#    #+#             */
-/*   Updated: 2024/10/19 15:41:18 by rgiambon         ###   ########.fr       */
+/*   Updated: 2024/10/20 18:57:54 by rgiambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	ending_sim(t_data *data, t_philo *philo, int i)
 	data->is_over = 1;
 	pthread_mutex_unlock(&data->is_dead);
 	pthread_mutex_lock(&data->printer);
-	printf("[%u] %d %s is dead.%s\n", get_sim_time(data), philo[i].idx + 1, RED, RESET);
+	printf("[%u] %d %s is dead.%s\n", get_sim_time(data), \
+	philo[i].idx + 1, RED, RESET);
 	pthread_mutex_unlock(&data->printer);
 	pthread_mutex_unlock(&philo[i].meal);
 }
