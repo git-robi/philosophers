@@ -6,7 +6,7 @@
 /*   By: rgiambon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 14:37:54 by rgiambon          #+#    #+#             */
-/*   Updated: 2024/10/20 18:58:31 by rgiambon         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:14:18 by rgiambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	philo_eats(t_philo *philo)
 {
 	if (printer("is eating", philo, GREEN) != 0)
 	{
-		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(philo->left_fork);
 		return (1);
 	}
 	pthread_mutex_lock(&philo->meal);
@@ -45,8 +45,8 @@ int	philo_eats(t_philo *philo)
 	philo->meals_eaten += 1;
 	pthread_mutex_unlock(&philo->meal);
 	usleep(philo->data->time_to_eat * 1000);
-	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
 	return (0);
 }
 
@@ -57,18 +57,10 @@ int	pick_up_forks(t_philo *philo)
 		usleep(philo->data->time_to_die + 1 * 1000);
 		return (1);
 	}
-	if (philo->left_fork < philo->right_fork)
-	{
-		pthread_mutex_lock(philo->left_fork);
-		pthread_mutex_lock(philo->right_fork);
-		printer("has taken right fork", philo, YELLOW);
-	}
-	else
-	{
-		pthread_mutex_lock(philo->right_fork);
-		pthread_mutex_lock(philo->left_fork);
-		printer("has taken left fork", philo, YELLOW);
-	}
+	pthread_mutex_lock(philo->left_fork);
+	printer("has taken a fork", philo, YELLOW);
+	pthread_mutex_lock(philo->right_fork);
+	printer("has taken a fork", philo, YELLOW);
 	return (0);
 }
 

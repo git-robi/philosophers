@@ -6,7 +6,7 @@
 /*   By: rgiambon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 15:42:25 by rgiambon          #+#    #+#             */
-/*   Updated: 2024/10/19 15:22:41 by rgiambon         ###   ########.fr       */
+/*   Updated: 2024/10/22 10:11:39 by rgiambon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	make_threads(t_philo *philo, t_data *data)
 		{
 			pthread_mutex_lock(&data->is_dead);
 			data->is_over = 1;
-			pthread_mutex_lock(&data->is_dead);
-			return ;
+			pthread_mutex_unlock(&data->is_dead);
+			break ;
 		}
 		i++;
 	}
