@@ -51,26 +51,27 @@ I implemented this project using threads and mutexes in C, with a focus on preve
 The Dining Philosophers project presented three fundamental challenges in concurrent programming.
 
 ### Managing Race Conditions
-The most critical challenge was protecting shared resources from simultaneous access. Each philosopher needed to track their meal times and status without interference from others. We implemented precise mutex locks around critical sections and developed a careful timing system for death detection that maintained data consistency while allowing maximum concurrency.
+The most critical challenge was protecting shared resources from simultaneous access. Each philosopher needed to track their meal times and status without interference from others. I implemented precise mutex locks around critical sections and developed a careful timing system for death detection that maintained data consistency while allowing maximum concurrency.
 
 ### Preventing Deadlocks
-Deadlock prevention was crucial for system stability. The classic deadlock scenario occurs when each philosopher grabs their left fork and waits indefinitely for their right fork. We solved this through a strategic fork allocation system where philosophers pick up forks in a consistent order. This, combined with proper resource release timing, ensures the system never reaches a deadlock state.
+Deadlock prevention was crucial for system stability. The classic deadlock scenario occurs when each philosopher grabs their left fork and waits indefinitely for their right fork. I solved this through a strategic fork allocation system where philosophers pick up forks in a consistent order. This, combined with proper resource release timing, ensures the system never reaches a deadlock state.
 
 ### Optimizing Performance
-Balancing safety with efficiency required careful tuning. We minimized mutex lock durations to reduce thread contention while maintaining data integrity. The monitoring system was optimized to check philosopher states efficiently without overwhelming the CPU. These optimizations resulted in smooth thread operations without sacrificing safety.
+Balancing safety with efficiency required careful tuning. I minimized mutex lock durations to reduce thread contention while maintaining data integrity. The monitoring system was optimized to check philosopher states efficiently without overwhelming the CPU. These optimizations resulted in smooth thread operations without sacrificing safety.
 
 ## 🎓 What I learned
 
 This project provided deep insights into concurrent programming and system design.
 
 ### Concurrent Programming
-Implementing the dining philosophers simulation revealed the complexities of thread synchronization. We learned to identify and prevent race conditions through careful mutex usage. The project demonstrated how theoretical concurrency concepts apply to real-world problems, especially in preventing deadlocks while maintaining system performance.
+Implementing the dining philosophers simulation revealed the complexities of thread synchronization. I learned to identify and prevent race conditions through careful mutex usage. The project demonstrated how theoretical concurrency concepts apply to real-world problems, especially in preventing deadlocks while maintaining system performance.
 
 ### System-Level Programming
-Working with POSIX threads enhanced our understanding of low-level system operations. We gained practical experience in resource management and thread scheduling. The project taught us how to balance system resources effectively while maintaining precise timing requirements for philosopher actions.
+Working with POSIX threads enhanced our understanding of low-level system operations. I gained practical experience in resource management and thread scheduling. The project taught me how to balance system resources effectively while maintaining precise timing requirements for philosopher actions.
 
 ### Advanced Problem-Solving
-Debugging multi-threaded applications required developing systematic approaches to complex problems. We created efficient monitoring systems to track philosopher states and detect potential issues early. These debugging and optimization skills proved essential for developing robust concurrent applications.
+Debugging multi-threaded applications required developing systematic approaches to complex problems. I created efficient monitoring systems to track philosopher states and detect potential issues early. These debugging and optimization skills proved essential for developing robust concurrent applications.
+
 ## 💡 How to Use It
 
 ```bash
