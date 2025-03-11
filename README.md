@@ -1,6 +1,6 @@
 # 🍝 Philosophers - A Thread Synchronization Project
 
-Hey there! 👋 Welcome to my Philosophers project, where I built my solution for the classic dining philosophers problem - a fascinating challenge in concurrent programming and thread synchronization!
+Hey there! 👋 Welcome to my Philosophers project, where I built my solution for the classic dining philosophers problem - a challenge in concurrent programming and thread synchronization!
 
 ## 🎯 What's This Project About?
 
